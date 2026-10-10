@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+
+# Built by: blender --command extension build --output-dir dist
+dist/
+
+# Local reference material, not part of the extension
+_info/
+
+.vscode/
+.idea/

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <!-- GraphExplorer Link for Blender: a 3D body coupled to a graph node.
+       Same colours and graph as the QGIS icon; the polygon became a body.
+       The highlighted node sits on the body: select one, the other follows. -->
+  <g stroke="#1f8da6" stroke-width="3.5" stroke-linejoin="round" fill="#1f8da6">
+    <polygon points="5,21 21,13 37,21 21,29" fill-opacity="0.12"/>
+    <polygon points="5,21 21,29 21,53 5,45" fill-opacity="0.30"/>
+    <polygon points="21,29 37,21 37,45 21,53" fill-opacity="0.20"/>
+  </g>
+  <g stroke="#167a91" stroke-width="3.5" stroke-linecap="round">
+    <line x1="21" y1="38" x2="50" y2="13"/>
+    <line x1="21" y1="38" x2="54" y2="45"/>
+    <line x1="50" y1="13" x2="54" y2="45"/>
+  </g>
+  <circle cx="50" cy="13" r="6" fill="#ffffff" stroke="#167a91" stroke-width="3.5"/>
+  <circle cx="54" cy="45" r="6" fill="#ffffff" stroke="#167a91" stroke-width="3.5"/>
+  <circle cx="21" cy="38" r="8" fill="#f29e38" stroke="#ffffff" stroke-width="2.5"/>
+</svg>

@@ -1,0 +1,36 @@
+schema_version = "1.0.0"
+
+id = "graphexplorer_link"
+version = "1.0.0"
+name = "GraphExplorer Link for Blender"
+tagline = "Link Blender objects to the nodes of a knowledge graph"
+maintainer = "Brigit Danthine <brigit.danthine@oeaw.ac.at>"
+type = "add-on"
+
+website = "https://github.com/oeai-dac/GraphExplorer-Blender"
+
+tags = ["3D View", "Object", "Material"]
+
+blender_version_min = "4.2.0"
+
+license = ["SPDX:GPL-3.0-or-later"]
+copyright = ["2026 Brigit Danthine, Austrian Archaeological Institute (Austrian Academy of Sciences)"]
+
+[permissions]
+network = "Local connection to the GraphExplorer in your browser"
+clipboard = "Copy the connection address for the GraphExplorer"
+files = "Read a graph file to open it in the GraphExplorer"
+
+[build]
+paths_exclude_pattern = [
+  "__pycache__/",
+  "/.git/",
+  "/.git*",
+  "/dist/",
+  "/docs/",
+  "/tests/",
+  "/scripts/",
+  "/icon.png",
+  "/icon.svg",
+  "/_info/",
+]
