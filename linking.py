@@ -32,10 +32,10 @@ from collections import OrderedDict
 # eine Auswahlliste ist ehrlicher als drei Checkboxen, aus denen acht
 # Kombinationen entstehen, von denen die Hälfte niemand will.
 #
-# Die beiden letzten sind für Bezeichnungen der Form **EDP22-SE2004**
-# dazugekommen. Darin stecken zwei Zahlengruppen -- die Kampagne und die
+# Die beiden letzten sind für Bezeichnungen der Form **T2_SE2004**
+# dazugekommen. Darin stecken zwei Zahlengruppen -- der Schnitt und die
 # Stratigrafische Einheit --, und "Nur Ziffern" verweigert
-# deshalb zu Recht die Auskunft: Zwischen 22 und 2004 zu wählen wäre geraten,
+# deshalb zu Recht die Auskunft: Zwischen 2 und 2004 zu wählen wäre geraten,
 # und geraten hieße, Funde am falschen Befund zu zeigen.
 NORMALIZE_EXACT = "exact"
 NORMALIZE_TRIM = "trim"
@@ -49,12 +49,12 @@ NORMALIZE_MODES = OrderedDict([
     (NORMALIZE_TRIM, "Trim — strip outer whitespace only"),
     (NORMALIZE_EXACT, "Exact — character by character"),
     (NORMALIZE_DIGITS, 'Digits only — "SE 2001" matches "2001"'),
-    (NORMALIZE_LAST_NUMBER, 'Last number — "EDP22-SE2004" matches "2004"'),
+    (NORMALIZE_LAST_NUMBER, 'Last number — "T2_SE2004" matches "2004"'),
     (NORMALIZE_PATTERN, "Pattern — custom regular expression"),
 ])
 
 #: Vorgabe für den Muster-Modus. Fängt die gängigen Schreibweisen einer SE:
-#: "SE2004", "SE 2004", "SE-2004", "EDP22-SE2004", "se_2004".
+#: "SE2004", "SE 2004", "SE-2004", "T2_SE2004", "se_2004".
 DEFAULT_PATTERN = r"SE[\s_-]*(\d+)"
 
 _WS = re.compile(r"\s+")
@@ -69,7 +69,7 @@ def normalize_key(value, mode=NORMALIZE_LOOSE, pattern=None):
 
     Angewandt wird dieselbe Normalisierung auf **beide** Seiten. Genau daraus
     zieht der Muster-Modus seine Kraft: ``SE[\\s_-]*(\\d+)`` macht aus dem
-    Feldwert ``EDP22-SE2004`` eine ``2004`` und aus dem Attributwert
+    Feldwert ``T2_SE2004`` eine ``2004`` und aus dem Attributwert
     ``SE 2004`` ebenfalls -- die beiden finden zusammen, ohne dass irgendwo
     eine Umrechnungstabelle stünde.
     """
@@ -89,14 +89,14 @@ def normalize_key(value, mode=NORMALIZE_LOOSE, pattern=None):
         return text.strip() or None
     if mode == NORMALIZE_DIGITS:
         found = _DIGITS.findall(text)
-        # Mehrere Zahlen ("Schnitt 3, SE 2001", "EDP22-SE2004") sind nicht
+        # Mehrere Zahlen ("Schnitt 3, SE 2001", "T2_SE2004") sind nicht
         # eindeutig auflösbar. Die längste zu nehmen wäre geraten; hier gilt:
         # die *einzige* Zahl zählt, sonst nichts. Lieber ein Nichttreffer im
         # Bericht als eine stille Fehlzuordnung.
         return found[0] if len(found) == 1 else None
 
     if mode == NORMALIZE_LAST_NUMBER:
-        # Für Namen der Form "<Kampagne>-SE<Nummer>": Die Einheit steht hinten.
+        # Für Namen der Form "<Schnitt>_SE<Nummer>": Die Einheit steht hinten.
         found = _DIGITS.findall(text)
         return found[-1] if found else None
 
@@ -354,7 +354,7 @@ class LinkIndex(object):
         das liefert bereits normalisierte Schlüssel. Die noch einmal durch
         ``normalize_key`` zu schicken, war ein Fehler: Bei den meisten Stufen
         fällt er nicht auf, weil sie idempotent sind -- bei "Muster" aber
-        schon. Aus ``EDP22-SE2004`` wird ``2004``, und in ``2004`` findet
+        schon. Aus ``T2_SE2004`` wird ``2004``, und in ``2004`` findet
         ``SE[\\s_-]*(\\d+)`` nichts mehr. Die Richtung Wirt -> Explorer war
         damit still tot, während die Gegenrichtung tadellos lief.
         """
@@ -381,7 +381,7 @@ class LinkIndex(object):
 
         Das Gegenstück zu ``node_ids_for_normalized_keys`` und aus demselben
         Grund da: Ein zweiter Durchlauf durch ``normalize_key`` ist bei den
-        meisten Stufen folgenlos, bei "Muster" aber nicht -- aus ``EDP22-SE2004``
+        meisten Stufen folgenlos, bei "Muster" aber nicht -- aus ``T2_SE2004``
         ist dann längst ``2004``, und darin findet ``SE[\\s_-]*(\\d+)`` nichts
         mehr.
         """

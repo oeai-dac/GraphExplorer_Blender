@@ -47,7 +47,7 @@ BLENDER_SUFFIX = re.compile(r"\.\d{3}$")
 
 
 def strip_blender_suffix(name):
-    """``"EDP22-SE2004.001"`` -> ``"EDP22-SE2004"``.
+    """``"T2_SE2004.001"`` -> ``"T2_SE2004"``.
 
     Dass danach zwei Objekte denselben Schlüssel tragen, ist kein Unfall,
     sondern der Zweck: Eine SE, die in zwei Teilen modelliert wurde, hat zwei
@@ -55,7 +55,7 @@ def strip_blender_suffix(name):
     Der Index ist von Anfang an n:m.
 
     Die Reihenfolge -- erst abschneiden, dann normalisieren -- ist ebenfalls
-    nicht kosmetisch: Sonst wäre bei "EDP22-SE2004.001" der Zähler die *letzte
+    nicht kosmetisch: Sonst wäre bei "T2_SE2004.001" der Zähler die *letzte
     Zahl*, und ausgerechnet die SE mit zwei Geometrien fielen aus der Zuordnung.
     """
     return BLENDER_SUFFIX.sub("", name or "")

@@ -3,7 +3,7 @@
 Der Explorer selbst ist der GraphExplorer im Browser -- derselbe, mit dem auch
 sonst gearbeitet wird. Das Addon bringt keinen eigenen mit, sondern hält nur
 die Leitung: Die Adresse wird hier kopiert und im GraphExplorer unten links
-unter "Connect QGIS / Blender" eingefügt. Damit gibt es genau einen Explorer,
+unter "Connect application" eingefügt. Damit gibt es genau einen Explorer,
 und ein Update des GraphExplorers wirkt sofort auch für Blender.
 
 Der Zeitgeber ist das Herzstück. Er tut drei Dinge, alle auf dem Hauptfaden --
@@ -61,7 +61,7 @@ GRAPHEXPLORER_URL = "https://github.com/oeai-dac/GraphExplorer"
 HOW_TO_CONNECT = (
     "1. Open the GraphExplorer in your browser.",
     "2. Click Copy connection address below.",
-    "3. In the GraphExplorer, click Connect QGIS / Blender",
+    "3. In the GraphExplorer, click Connect application",
     "    at the bottom left, paste the address, click Connect.",
 )
 
@@ -677,7 +677,7 @@ class GRAPHEXPLORER_OT_copy_address(Operator):
     bl_idname = "graphexplorer.copy_address"
     bl_label = "Copy connection address"
     bl_description = ("Copy the address of this Blender session. Paste it in the "
-                      'GraphExplorer under "Connect QGIS / Blender" (bottom left)')
+                      'GraphExplorer under "Connect application" (bottom left)')
 
     def execute(self, context):
         try:
@@ -692,7 +692,7 @@ class GRAPHEXPLORER_OT_copy_address(Operator):
             session._set_status("Address copied. The GraphExplorer is already connected.")
         else:
             session._set_status('Address copied. Now paste it in the GraphExplorer under '
-                                '"Connect QGIS / Blender" (bottom left).')
+                                '"Connect application" (bottom left).')
         return {"FINISHED"}
 
 

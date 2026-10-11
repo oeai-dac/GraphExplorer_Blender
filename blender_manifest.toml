@@ -7,7 +7,7 @@ tagline = "Link Blender objects to the nodes of a knowledge graph"
 maintainer = "Brigit Danthine <brigit.danthine@oeaw.ac.at>"
 type = "add-on"
 
-website = "https://github.com/oeai-dac/GraphExplorer-Blender"
+website = "https://github.com/oeai-dac/GraphExplorer_Blender"
 
 tags = ["3D View", "Object", "Material"]
 

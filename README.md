@@ -32,12 +32,12 @@ Excavation data usually lives in several places — this extension connects two 
 - **Click on a linked node in the GraphExplorer** — in its lists, the Harris matrix or the timeline etc. → the linked objects are selected in Blender.
 - **Color the model by a value from the graph** — for example by period, by interpretation or by the number of finds per unit — and see at a glance how the excavation is structured.
 
-The graph itself is shown in the **[GraphExplorer](https://github.com/oeai-dac/GraphExplorer)**, a free tool that runs in your web browser. This extension connects Blender to it. The same GraphExplorer can be connected to **[GraphExplorer Link for QGIS](https://github.com/oeai-dac/GraphExplorer-QGIS)** at the same time, so a click in one of the three programs updates the other two.
+The graph itself is shown in the **[GraphExplorer](https://github.com/oeai-dac/GraphExplorer)**, a free tool that runs in your web browser. This extension connects Blender to it. The same GraphExplorer can be connected to other applications at the same time — such as QGIS or CloudCompare with **[GraphExplorer Link for QGIS](https://github.com/oeai-dac/GraphExplorer_QGIS)** and **[GraphExplorer Link for CloudCompare](https://github.com/oeai-dac/GraphExplorer_CloudCompare)** — so a click in one program updates all the others.
 
 ```mermaid
 flowchart LR
     B["Blender<br/>with GraphExplorer Link for Blender"] <-- "selection<br/>both ways" --> G["GraphExplorer<br/>in the browser"]
-    Q["QGIS<br/>with GraphExplorer Link for QGIS"] <-. "optional" .-> G
+    O["Other applications<br/>e.g. QGIS · CloudCompare"] <-. "optional" .-> G
     G -- "values for<br/>coloring" --> B
 ```
 
@@ -47,7 +47,7 @@ flowchart LR
 
 - **Selection in both directions** — model → graph and graph → model, live
 - **Works with your object names** — matched against the name, a property or the ID of the nodes
-- **Forgiving matching** — ignores upper/lower case, extra spaces and the `.001` Blender adds to duplicate names; can also match `SE 2001` with `2001`, or pick the number out of names like `EDP22-SE2004`
+- **Forgiving matching** — ignores upper/lower case, extra spaces and the `.001` Blender adds to duplicate names; can also match `SE 2001` with `2001`, or pick the number out of names like `T2_SE2004`
 - **Several links side by side** — e.g. one for the bodies of the units and one for the find markers
 - **Match report** — shows which names appear in both, which only in Blender and which only in the graph
 - **Clever selection** — click a find in the GraphExplorer, and Blender selects the unit it was found in
@@ -67,7 +67,7 @@ flowchart LR
 
 ### Install the extension
 
-**From a ZIP file:** download `graphexplorer_link-<version>.zip` from the [Releases](https://github.com/oeai-dac/GraphExplorer-Blender/releases) page. In Blender, open *Edit → Preferences → Get Extensions*, click the small arrow at the top right, choose *Install from Disk…* and select the file. (You can also simply drag the ZIP file into the Blender window.)
+**From a ZIP file:** download `graphexplorer_link-<version>.zip` from the [Releases](https://github.com/oeai-dac/GraphExplorer_Blender/releases) page. In Blender, open *Edit → Preferences → Get Extensions*, click the small arrow at the top right, choose *Install from Disk…* and select the file. (You can also simply drag the ZIP file into the Blender window.)
 
 **From Blender** (once published on [extensions.blender.org](https://extensions.blender.org)): *Edit → Preferences → Get Extensions*, search for **GraphExplorer Link for Blender**, click *Install*.
 
@@ -107,14 +107,14 @@ In the 3D Viewport, press `N` to show the sidebar and click the tab **GraphExplo
 | Element | What it does |
 |---|---|
 | **Not connected / Connected to the GraphExplorer** | Shows whether the GraphExplorer is connected. While it is not, the panel shows the three steps to connect. |
-| **Copy connection address** | Copies the address you paste into the GraphExplorer under *Connect QGIS / Blender*. |
+| **Copy connection address** | Copies the address you paste into the GraphExplorer under *Connect application*. |
 | **Load graph …** | Opens a graph JSON file in the connected GraphExplorer. Optional — you can also open the graph in the GraphExplorer itself. |
 | **Links** | Sets up which nodes in the graph your objects belong to ([step 4](#4-link-the-objects-in-blender-with-the-nodes-in-the-graphexplorer)). |
 | **Zoom to selection** | When something is selected in the GraphExplorer, the 3D view zooms to it. |
 | **Color by value** | Colors the linked objects by a value from the graph ([step 5](#5-color-the-model-by-a-value-from-the-graph)). |
 | **Explain selection** | Shows why a selected object is — or is not — linked ([see Troubleshooting](#troubleshooting)). |
 
-To connect, click **Copy connection address**. Then, in the GraphExplorer, click **Connect QGIS / Blender** at the bottom left, paste the address and click **Connect**.
+To connect, click **Copy connection address**. Then, in the GraphExplorer, click **Connect application** at the bottom left, paste the address and click **Connect**.
 
 The panel in Blender now says **Connected to the GraphExplorer**.
 
@@ -182,8 +182,8 @@ In the example, the names in Blender and in the graph are exactly the same. With
 | **Trim** | Only spaces at the beginning and end are ignored |
 | **Exact** | Every character must match |
 | **Digits only** | Only the number counts: `SE 2001` matches `2001`. Names with *several* numbers (`Trench 3, SE 2001`) are left out on purpose — guessing could connect a find with the wrong unit. |
-| **Last number** | Takes the last number: `EDP22-SE2004` matches `2004` — useful when the campaign is written in front |
-| **Pattern** | A search pattern of your own (a regular expression); the part in brackets is compared. The default `SE[\s_-]*(\d+)` finds the number in `SE2004`, `SE 2004`, `SE-2004`, `se_2004` and `EDP22-SE2004` |
+| **Last number** | Takes the last number: `T2_SE2004` matches `2004` — useful when the trench is written in front |
+| **Pattern** | A search pattern of your own (a regular expression); the part in brackets is compared. The default `SE[\s_-]*(\d+)` finds the number in `SE2004`, `SE 2004`, `SE-2004`, `se_2004` and `T2_SE2004` |
 
 **Ignore .001 suffixes** (on by default, applies to all links) — Blender adds `.001`, `.002` to duplicate names. With this option, `SU1001.001` counts as `SU1001`, so a unit modelled in two parts lights up as a whole.
 
@@ -240,9 +240,9 @@ A 3D model of an excavation is often made of textured meshes from photogrammetry
 
 Untick **Use materials** to change nothing about the materials at all: then only the *object color* is set, which Blender shows in the *Solid* view with *Color: Object*. The extension switches the view for you. The button **View object colors** does the same at any time — use it if the model stays grey although the legend shows colors.
 
-### QGIS and Blender at the same time
+### Several applications at the same time
 
-The GraphExplorer can be connected to Blender and to QGIS (with [GraphExplorer Link for QGIS](https://github.com/oeai-dac/GraphExplorer-QGIS)) at the same time. Click the body of a unit in Blender, and the GraphExplorer opens the unit while QGIS selects its polygon — and the other way round. Copy the connection address in each program and paste both into the GraphExplorer (*Connect QGIS / Blender*, then *Connect another application*). The example data includes the matching GIS layers for QGIS, and the 3D model lines up with them.
+The GraphExplorer can be connected to several applications at the same time — for example Blender, QGIS (with [GraphExplorer Link for QGIS](https://github.com/oeai-dac/GraphExplorer_QGIS)) and CloudCompare (with [GraphExplorer Link for CloudCompare](https://github.com/oeai-dac/GraphExplorer_CloudCompare)). Click the body of a unit in Blender, and the GraphExplorer opens the unit while QGIS selects its polygon — and the other way round. Copy the connection address in each program and paste them all into the GraphExplorer (*Connect application*, then *Connect another application*). The example data includes the matching GIS layers for QGIS, and the 3D model lines up with them.
 
 ### What is saved where
 
@@ -300,7 +300,7 @@ The last message is shown at the bottom of the panel. More details go to Blender
 
 ### Why the GraphExplorer runs in the browser
 
-Blender has no web view that could run the GraphExplorer, and its Python has no WebSocket library. So the extension runs a small WebSocket server of its own (`websocket.py`, Python standard library only) on `127.0.0.1`, and the GraphExplorer — the bridge is built into it (`src/explorer-bridge.js`) — connects to it. A WebSocket is always opened by the browser; the applications are the servers. This is also why Blender and QGIS can share one GraphExplorer without depending on each other.
+Blender has no web view that could run the GraphExplorer, and its Python has no WebSocket library. So the extension runs a small WebSocket server of its own (`websocket.py`, Python standard library only) on `127.0.0.1`, and the GraphExplorer — the bridge is built into it (`src/explorer-bridge.js`) — connects to it. A WebSocket is always opened by the browser; the applications are the servers. This is also why several applications — such as Blender, QGIS and CloudCompare — can share one GraphExplorer without depending on each other.
 
 ### Threads and the timer
 
@@ -343,7 +343,7 @@ timer: selection changed?
 
 ### Interface version
 
-On connecting, the GraphExplorer reports an interface version (`API_VERSION` in its `src/main.jsx`). The extension checks for **at least** the version it needs (currently 2; version 3 adds the display names), not for exactly that version: the bridge gains methods but never loses any, and since Blender and QGIS can share one GraphExplorer, an equality check would turn every extension for one into a failure for the other.
+On connecting, the GraphExplorer reports an interface version (`API_VERSION` in its `src/main.jsx`). The extension checks for **at least** the version it needs (currently 2; version 3 adds the display names), not for exactly that version: the bridge gains methods but never loses any, and since several applications can share one GraphExplorer, an equality check would turn every extension for one into a failure for the others.
 
 ### Access token
 
@@ -376,7 +376,7 @@ For development, you can instead link the repository into Blender's extension fo
 
 ```bash
 # Windows (as administrator, or with developer mode on)
-mklink /D "%APPDATA%\Blender Foundation\Blender\<version>\extensions\user_default\graphexplorer_link" "C:\path\to\GraphExplorer-Blender"
+mklink /D "%APPDATA%\Blender Foundation\Blender\<version>\extensions\user_default\graphexplorer_link" "C:\path\to\GraphExplorer_Blender"
 # Linux:  ~/.config/blender/<version>/extensions/user_default/graphexplorer_link
 # macOS:  ~/Library/Application Support/Blender/<version>/extensions/user_default/graphexplorer_link
 ```
@@ -384,7 +384,7 @@ mklink /D "%APPDATA%\Blender Foundation\Blender\<version>\extensions\user_defaul
 ### Project structure
 
 ```
-GraphExplorer-Blender/
+GraphExplorer_Blender/
 ├── __init__.py              register/unregister
 ├── blender_manifest.toml    extension metadata for Blender 4.2+
 ├── addon.py                 settings, links, sidebar panel, operators, timer

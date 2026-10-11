@@ -211,12 +211,12 @@ check("auch das Ausweichen bleibt in der Grenze", len(lang2) <= 63, True)
 # Dieselbe Falle wie überall: Bei "Letzte Zahl" ist die Normalisierung nicht
 # wiederholbar. Die Objektseite ist beim Aufbau des Index schon normalisiert,
 # nur die Graph-Seite darf hier noch durch.
-edp = build_plan(
-    index_for([("EDP22-SE2004", "EDP22-SE2004")], NORMALIZE_LAST_NUMBER),
+t2 = build_plan(
+    index_for([("T2_SE2004", "T2_SE2004")], NORMALIZE_LAST_NUMBER),
     [row("SE 2004", "Grube")],
 )
 check("Letzte-Zahl findet über beide Seiten zusammen",
-      [g.objects for g in edp.groups], [["EDP22-SE2004"]])
+      [g.objects for g in t2.groups], [["T2_SE2004"]])
 
 
 # -- Ergebnis -----------------------------------------------------------------

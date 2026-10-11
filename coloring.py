@@ -212,7 +212,7 @@ def build_plan(index, rows, max_groups=MAX_GROUPS):
 
     Normalisiert wird nur die Graph-Seite -- die Objektseite hat der Index beim
     Aufbau schon normalisiert. Beide durchlaufen dieselbe Stufe, sonst träfe
-    "EDP22-SE2004" sein eigenes Mesh nicht.
+    "T2_SE2004" sein eigenes Mesh nicht.
     """
     config = index.config
     plan = ColorPlan()

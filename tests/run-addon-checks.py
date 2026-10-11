@@ -69,8 +69,8 @@ def check(name, got, want):
 # Steht hier und nicht in run-linking-checks.py, weil er in objectsync.py lebt:
 # linking.py bleibt Zeichen für Zeichen dieselbe Datei wie im QGIS-Plugin.
 
-NAME = "EDP22-SE2004"
-DUP = "EDP22-SE2004.001"
+NAME = "T2_SE2004"
+DUP = "T2_SE2004.001"
 check("Suffix abgeschnitten", strip_blender_suffix(DUP), NAME)
 check("Name ohne Suffix bleibt", strip_blender_suffix(NAME), NAME)
 check("dreistellig ist Bedingung", strip_blender_suffix("Profil.2"), "Profil.2")

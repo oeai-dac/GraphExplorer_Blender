@@ -131,25 +131,25 @@ check("Rundreise durch dict", LinkConfig.from_dict(config().to_dict()).to_dict()
 
 
 # ===========================================================================
-# Bezeichnungen mit Kampagne: "EDP22-SE2004"
+# Bezeichnungen mit Schnitt: "T2_SE2004"
 # ===========================================================================
 #
-# Alles ab hier stammt aus einem tatsächlichen Bestand: Die Bezeichnungen
-# tragen die Kampagne vorneweg. Das bricht die einfachen Stufen -- deshalb
+# Alles ab hier bildet einen typischen Bestand nach: Die Bezeichnungen
+# tragen den Schnitt vorneweg. Das bricht die einfachen Stufen -- deshalb
 # "Letzte Zahl" und "Muster".
 
-BEZEICHNUNG = "EDP22-SE2004"
+BEZEICHNUNG = "T2_SE2004"
 GRAPH = "SE 2004"          # so steht es (vermutlich) im Attribut des Knotens
 
 
 # -- "Letzte Zahl" -----------------------------------------------------------
 
-check("Kampagne davor stört nicht", normalize_key(BEZEICHNUNG, NORMALIZE_LAST_NUMBER), "2004")
+check("Schnitt davor stört nicht", normalize_key(BEZEICHNUNG, NORMALIZE_LAST_NUMBER), "2004")
 check("Graph-Seite ergibt dasselbe", normalize_key(GRAPH, NORMALIZE_LAST_NUMBER), "2004")
 check("ohne Zahl kein Schlüssel", normalize_key("Nordprofil", NORMALIZE_LAST_NUMBER), None)
 
 # Zum Vergleich: Warum "Nur Ziffern" hier nicht taugt. Zwei Zahlengruppen, und
-# die Stufe verweigert zu Recht die Auskunft, statt 22 oder 2004 zu raten.
+# die Stufe verweigert zu Recht die Auskunft, statt 2 oder 2004 zu raten.
 check("Nur Ziffern kapituliert bei zwei Zahlen",
       normalize_key(BEZEICHNUNG, NORMALIZE_DIGITS), None)
 
@@ -158,7 +158,7 @@ check("Nur Ziffern kapituliert bei zwei Zahlen",
 
 check("Vorgabemuster, Layer-Seite", normalize_key(BEZEICHNUNG, NORMALIZE_PATTERN), "2004")
 check("Vorgabemuster, Graph-Seite", normalize_key(GRAPH, NORMALIZE_PATTERN), "2004")
-for schreibweise in ("SE2004", "SE 2004", "SE-2004", "se_2004", "EDP22-SE2004"):
+for schreibweise in ("SE2004", "SE 2004", "SE-2004", "se_2004", "T2_SE2004"):
     check("Schreibweise %r" % schreibweise,
           normalize_key(schreibweise, NORMALIZE_PATTERN, DEFAULT_PATTERN), "2004")
 
@@ -166,7 +166,7 @@ check("kein Treffer, kein Schlüssel",
       normalize_key("Nordprofil", NORMALIZE_PATTERN, DEFAULT_PATTERN), None)
 check("eigenes Muster", normalize_key("Fund-17-b", NORMALIZE_PATTERN, r"Fund-(\d+)"), "17")
 check("ohne Klammergruppe zählt der ganze Treffer",
-      normalize_key("EDP22-SE2004", NORMALIZE_PATTERN, r"SE\d+"), "se2004")
+      normalize_key("T2_SE2004", NORMALIZE_PATTERN, r"SE\d+"), "se2004")
 
 # Ein halb getippter Ausdruck im Eingabefeld darf nicht die Zuordnung sprengen.
 check("kaputtes Muster wirft nicht",
@@ -183,10 +183,10 @@ for modus in (NORMALIZE_LAST_NUMBER, NORMALIZE_PATTERN):
                         node_attr="se", normalize=modus)
     index = LinkIndex(config)
     index.set_layer_side([
-        (1, "EDP22-SE2004"),
-        (2, "EDP22-SE2004"),       # zweite Geometrie derselben SE
-        (3, "EDP22-SE2005"),
-        (4, "EDP22-Nordprofil"),   # gar keine SE
+        (1, "T2_SE2004"),
+        (2, "T2_SE2004"),       # zweite Geometrie derselben SE
+        (3, "T2_SE2005"),
+        (4, "T2_Nordprofil"),   # gar keine SE
     ])
     index.set_graph_side([
         {"id": "B_2004", "key": "SE 2004"},
@@ -197,7 +197,7 @@ for modus in (NORMALIZE_LAST_NUMBER, NORMALIZE_PATTERN):
     check("%s: SE 2004 findet beide Objekte" % modus,
           index.feature_ids_for_keys(["SE 2004"]), [1, 2])
     check("%s: Objektname findet den Knoten" % modus,
-          index.node_ids_for_keys(["EDP22-SE2005"]), ["B_2005"])
+          index.node_ids_for_keys(["T2_SE2005"]), ["B_2005"])
 
     report = index.report()
     check("%s: zwei Schlüssel verknüpft" % modus, report.matched_keys, 2)
@@ -223,27 +223,27 @@ label_config = LinkConfig(node_type="Befund", node_source=SOURCE_LABEL,
                           normalize=NORMALIZE_LOOSE)
 label_index = LinkIndex(label_config)
 label_index.set_layer_side([
-    ("Würfel.001", "EDP22-SE2004"),
-    ("Würfel.002", "EDP22-SE2004"),   # zweite Geometrie
-    ("Würfel.003", "EDP22-SE2005"),
+    ("Würfel.001", "T2_SE2004"),
+    ("Würfel.002", "T2_SE2004"),   # zweite Geometrie
+    ("Würfel.003", "T2_SE2005"),
 ])
 label_index.set_graph_side([
-    {"id": "B_2004", "key": "EDP22-SE2004"},     # Label des Knotens, wörtlich
-    {"id": "B_2005", "key": "EDP22-SE2005"},
-    {"id": "B_2006", "key": "EDP22-SE2006"},
+    {"id": "B_2004", "key": "T2_SE2004"},     # Label des Knotens, wörtlich
+    {"id": "B_2005", "key": "T2_SE2005"},
+    {"id": "B_2006", "key": "T2_SE2006"},
 ])
 
-check("Objektname trifft Label", label_index.node_ids_for_keys(["EDP22-SE2004"]), ["B_2004"])
+check("Objektname trifft Label", label_index.node_ids_for_keys(["T2_SE2004"]), ["B_2004"])
 check("beide Geometrien derselben SE",
-      label_index.feature_ids_for_keys(["EDP22-SE2004"]), ["Würfel.001", "Würfel.002"])
+      label_index.feature_ids_for_keys(["T2_SE2004"]), ["Würfel.001", "Würfel.002"])
 
 label_report = label_index.report()
 check("zwei Bezeichnungen verknüpft", label_report.matched_keys, 2)
-check("eine ohne Geometrie", label_report.only_in_graph, ["edp22-se2006"])
+check("eine ohne Geometrie", label_report.only_in_graph, ["t2_se2006"])
 
 # Der Textvergleich ist gleichgültig gegen die Art der Bezeichnung -- genau das
 # macht ihn dem Zahlenweg überlegen, sobald beide Seiten dasselbe schreiben.
-for bezeichnung in ("EDP22-SE2004", "Fund-2022-17", "Nordprofil West", "Grab 3a"):
+for bezeichnung in ("T2_SE2004", "Fund-2022-17", "Nordprofil West", "Grab 3a"):
     idx = LinkIndex(LinkConfig(node_source=SOURCE_LABEL, normalize=NORMALIZE_LOOSE))
     idx.set_layer_side([("obj", bezeichnung)])
     idx.set_graph_side([{"id": "N", "key": bezeichnung}])
@@ -258,7 +258,7 @@ for bezeichnung in ("EDP22-SE2004", "Fund-2022-17", "Nordprofil West", "Grab 3a"
 # lag. Beides ist jetzt geprüft: die Erkennung und die Auskunft darüber.
 
 wrong = LinkIndex(LinkConfig(node_type="Befund", node_source=SOURCE_ATTR, node_attr="SE"))
-wrong.set_layer_side([("obj", "EDP22-SE2004")])
+wrong.set_layer_side([("obj", "T2_SE2004")])
 wrong.set_graph_side([])          # so kommt es von der JS-Seite, wenn es das Attribut nicht gibt
 wrong_report = wrong.report()
 
@@ -271,7 +271,7 @@ check("und verweist auf Label", "Node label" in wrong_report.details(), True)
 
 # Beispiele von beiden Seiten -- das Mittel, mit dem sich so etwas auf einen
 # Blick erkennen lässt, statt aus Zahlen erschlossen zu werden.
-check("Beispiele der Objektseite", wrong_report.layer_samples, ["edp22-se2004"])
+check("Beispiele der Objektseite", wrong_report.layer_samples, ["t2_se2004"])
 check("Beispiele der Graphseite leer", wrong_report.graph_samples, [])
 check("im Normalfall beide gefüllt",
       (len(label_report.layer_samples) > 0, len(label_report.graph_samples) > 0), (True, True))
@@ -284,24 +284,24 @@ check("im Normalfall beide gefüllt",
 # Der Weg vom Wirt zum Explorer geht über keys_for_feature_ids -- und das
 # liefert bereits normalisierte Schlüssel. Sie noch einmal durch normalize_key
 # zu schicken, fiel bei den meisten Stufen nicht auf, weil sie idempotent sind.
-# Bei "Muster" nicht: Aus "EDP22-SE2004" wird "2004", und in "2004" findet
+# Bei "Muster" nicht: Aus "T2_SE2004" wird "2004", und in "2004" findet
 # SE[\s_-]*(\d+) nichts mehr. Die Richtung Wirt -> Explorer war damit still
 # tot, während die Gegenrichtung tadellos lief -- ein Fehlerbild, das nach
 # einem Zufall aussieht.
 
 # NORMALIZE_DIGITS fehlt in der Liste mit Absicht: Diese Stufe verweigert bei
-# "EDP22-SE2004" die Auskunft (zwei Zahlengruppen), und zwar richtigerweise --
+# "T2_SE2004" die Auskunft (zwei Zahlengruppen), und zwar richtigerweise --
 # geprüft weiter oben. Sie hier mitzuführen würde nicht den Rückweg prüfen,
 # sondern nur diese Verweigerung noch einmal.
 for modus in (NORMALIZE_LOOSE, NORMALIZE_EXACT, NORMALIZE_TRIM,
               NORMALIZE_LAST_NUMBER, NORMALIZE_PATTERN):
     idx = LinkIndex(LinkConfig(node_type="Befund", node_source=SOURCE_LABEL, normalize=modus))
-    idx.set_layer_side([("Objekt", "EDP22-SE2004")])
-    idx.set_graph_side([{"id": "B_2004", "key": "EDP22-SE2004"}])
+    idx.set_layer_side([("Objekt", "T2_SE2004")])
+    idx.set_graph_side([{"id": "B_2004", "key": "T2_SE2004"}])
 
     # Hinweg: Explorer -> Wirt. Rohe Schlüssel, einmal normalisiert.
     check("%s: Hinweg findet das Objekt" % modus,
-          idx.feature_ids_for_keys(["EDP22-SE2004"]), ["Objekt"])
+          idx.feature_ids_for_keys(["T2_SE2004"]), ["Objekt"])
 
     # Rückweg: Wirt -> Explorer. Erst Feature -> Schlüssel, dann Schlüssel ->
     # Knoten. Der zweite Schritt bekommt bereits Normalisiertes.
@@ -313,8 +313,8 @@ for modus in (NORMALIZE_LOOSE, NORMALIZE_EXACT, NORMALIZE_TRIM,
 # es zwei Methoden gibt und nicht nur eine.
 muster = LinkIndex(LinkConfig(node_type="Befund", node_source=SOURCE_LABEL,
                               normalize=NORMALIZE_PATTERN))
-muster.set_layer_side([("Objekt", "EDP22-SE2004")])
-muster.set_graph_side([{"id": "B_2004", "key": "EDP22-SE2004"}])
+muster.set_layer_side([("Objekt", "T2_SE2004")])
+muster.set_graph_side([{"id": "B_2004", "key": "T2_SE2004"}])
 zwischen = muster.keys_for_feature_ids(["Objekt"])
 check("Zwischenergebnis ist schon normalisiert", zwischen, ["2004"])
 check("doppelt normalisiert findet nichts", muster.node_ids_for_keys(zwischen), [])
@@ -338,9 +338,9 @@ check("None verträgt sich", muster.node_ids_for_normalized_keys(None), [])
 # einen Knoten, ein Fund-Mesh nur im Fund-Index, und keiner stört den anderen.
 
 OBJEKTE = [
-    ("EDP22-SE2004", "EDP22-SE2004"),
-    ("EDP22-SE2004.001", "EDP22-SE2004"),     # zweite Geometrie derselben SE
-    ("EDP22-FN1115", "EDP22-FN1115"),
+    ("T2_SE2004", "T2_SE2004"),
+    ("T2_SE2004.001", "T2_SE2004"),     # zweite Geometrie derselben SE
+    ("T2_FN1115", "T2_FN1115"),
     ("Nordprofil", "Nordprofil"),             # gehört zu keiner Verknüpfung
 ]
 
@@ -348,15 +348,15 @@ se_index = LinkIndex(LinkConfig(node_type="Befund", node_source=SOURCE_LABEL,
                                 normalize=NORMALIZE_LOOSE))
 se_index.set_layer_side(OBJEKTE)
 se_index.set_graph_side([
-    {"id": "B_2004", "key": "EDP22-SE2004"},
-    {"id": "B_2005", "key": "EDP22-SE2005"},
+    {"id": "B_2004", "key": "T2_SE2004"},
+    {"id": "B_2005", "key": "T2_SE2005"},
 ])
 
 fund_index = LinkIndex(LinkConfig(node_type="Fund", node_source=SOURCE_LABEL,
                                   normalize=NORMALIZE_LOOSE))
 fund_index.set_layer_side(OBJEKTE)          # dieselben Objekte, andere Graph-Seite
 fund_index.set_graph_side([
-    {"id": "F_1115", "key": "EDP22-FN1115"},
+    {"id": "F_1115", "key": "T2_FN1115"},
 ])
 
 indizes = [se_index, fund_index]
@@ -382,23 +382,23 @@ def names_for(keys):
 
 
 # Blender -> Explorer
-check("SE-Mesh findet den Befund", nodes_for(["EDP22-SE2004"]), ["B_2004"])
-check("Fund-Mesh findet den Fund", nodes_for(["EDP22-FN1115"]), ["F_1115"])
+check("SE-Mesh findet den Befund", nodes_for(["T2_SE2004"]), ["B_2004"])
+check("Fund-Mesh findet den Fund", nodes_for(["T2_FN1115"]), ["F_1115"])
 check("Objekt ohne Bezug findet nichts", nodes_for(["Nordprofil"]), [])
 
 # Beide zusammen ausgewählt: beide Knoten kommen, keiner verdrängt den anderen.
 check("gemischte Auswahl liefert beide",
-      sorted(nodes_for(["EDP22-SE2004", "EDP22-FN1115"])), ["B_2004", "F_1115"])
+      sorted(nodes_for(["T2_SE2004", "T2_FN1115"])), ["B_2004", "F_1115"])
 
 # Explorer -> Blender
-check("Befund wählt beide Geometrien", names_for(["EDP22-SE2004"]),
-      ["EDP22-SE2004", "EDP22-SE2004.001"])
-check("Fund wählt sein Mesh", names_for(["EDP22-FN1115"]), ["EDP22-FN1115"])
+check("Befund wählt beide Geometrien", names_for(["T2_SE2004"]),
+      ["T2_SE2004", "T2_SE2004.001"])
+check("Fund wählt sein Mesh", names_for(["T2_FN1115"]), ["T2_FN1115"])
 
 # Der Kern: Die zweite Verknüpfung darf die erste nicht verdrängen. Ohne
 # getrennte Indizes hätte der zuletzt gesetzte Knotentyp gewonnen.
 check("SE-Verknüpfung bleibt neben der Fund-Verknüpfung bestehen",
-      (nodes_for(["EDP22-SE2004"]), nodes_for(["EDP22-FN1115"])),
+      (nodes_for(["T2_SE2004"]), nodes_for(["T2_FN1115"])),
       (["B_2004"], ["F_1115"]))
 
 # Und jede Verknüpfung berichtet für sich -- ein gemeinsamer Bericht würde
@@ -406,7 +406,7 @@ check("SE-Verknüpfung bleibt neben der Fund-Verknüpfung bestehen",
 # gehören.
 check("SE-Bericht zählt nur Befunde", se_index.report().matched_keys, 1)
 check("SE-Bericht kennt den unverknüpften Befund", se_index.report().only_in_graph,
-      ["edp22-se2005"])
+      ["t2_se2005"])
 check("Fund-Bericht zählt nur Funde", fund_index.report().matched_keys, 1)
 
 

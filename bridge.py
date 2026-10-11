@@ -8,7 +8,7 @@ Rückrufe statt Qt-Signalen.
 Das Addon bringt keinen eigenen Explorer mit. Es lauscht hier auf einem
 lokalen Port; der GraphExplorer -- gleich, ob aus ``START-Graph-Explorer.bat``,
 als Standalone-Datei oder von einem Webserver -- baut die Verbindung auf,
-sobald jemand die Adresse unten links unter "Connect QGIS / Blender" einfügt.
+sobald jemand die Adresse unten links unter "Connect application" einfügt.
 
     QGIS                       Blender
     ────                       ───────
